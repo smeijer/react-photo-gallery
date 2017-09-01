@@ -38,15 +38,16 @@ class Gallery extends React.Component {
 
     return (
       <div style={styles.gallery} ref={measureRef}>
-        {thumbs.map((photo, index) => {
-          const { width, height } = photo;
+        {width &&
+          thumbs.map((photo, index) => {
+            const { width, height } = photo;
 
-          return (
-            <div key={photo.key || photo.src} style={{ ...styles.cell, width, height, margin: padding / 2 }}>
-              <ImageComponent index={index} photo={photo} onClick={this.handleClick} />
-            </div>
-          );
-        })}
+            return (
+              <div key={photo.key || photo.src} style={{ ...styles.cell, width, height, margin: padding / 2 }}>
+                <ImageComponent index={index} photo={photo} onClick={this.handleClick} />
+              </div>
+            );
+          })}
       </div>
     );
   }
@@ -62,7 +63,7 @@ Gallery.propTypes = {
 
 Gallery.defaultProps = {
   columns: 3,
-  padding: 10,
+  padding: 4,
 };
 
 const EnhancedGallery = withContentRect('bounds')(Gallery);
