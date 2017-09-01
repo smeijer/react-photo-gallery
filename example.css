@@ -1,4 +1,4 @@
-/* 
+/*
 // Demo Stylesheet
 // -------------------
 */
@@ -8,6 +8,7 @@ body {
   color: #333;
   margin: 0 auto;
   padding: 0;
+  background: #f3f5f6;
 }
 .clearfix:after {
   visibility: hidden;
@@ -69,10 +70,7 @@ iframe {
 }
 .App {
   padding-top: 28px;
-}
-#Gallery {
-  margin: 0 auto;
-  margin-bottom: 20px;
+  margin: 0 15px;
 }
 .loading-msg {
   font-size: 20px;
