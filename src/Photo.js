@@ -26,11 +26,11 @@ class Photo extends PureComponent {
   }
 
   render() {
-    const { photo, cell, index, onClick, ...props } = this.props;
+    const { photo, cell, index, onClick, className, ...props } = this.props;
 
     return (
       <div
-        className="react-photo-gallery--photo"
+        className={['react-photo-gallery--photo', className].join(' ')}
         style={{
           width: cell.width,
           height: cell.height,
