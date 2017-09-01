@@ -10,11 +10,11 @@ class Photo extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick() {
+  handleClick(event) {
     const { onClick, index, photo } = this.props;
 
     if (typeof onClick === 'function') {
-      onClick({ photo, index });
+      onClick(event, { photo, index });
     }
   }
 

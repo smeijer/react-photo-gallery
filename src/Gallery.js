@@ -17,13 +17,13 @@ class Gallery extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick({ index }) {
+  handleClick(event, { index }) {
     const { photos, onClick } = this.props;
     if (typeof onClick !== 'function') {
       return;
     }
 
-    onClick({
+    onClick(event, {
       index,
       photo: photos[index],
       previous: photos[index - 1] || null,
