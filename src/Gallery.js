@@ -17,7 +17,7 @@ class Gallery extends PureComponent {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(event, { index }) {
+  handleClick(event, { index, cell }) {
     const { photos, onClick } = this.props;
     if (typeof onClick !== 'function') {
       return;
@@ -25,6 +25,7 @@ class Gallery extends PureComponent {
 
     onClick(event, {
       index,
+      cell,
       photo: photos[index],
       previous: photos[index - 1] || null,
       next: photos[index + 1] || null,
@@ -32,8 +33,8 @@ class Gallery extends PureComponent {
   }
 
   render() {
-    const { ImageComponent = Photo, measureRef } = this.props;
-    const { photos, columns, padding, contentRect: { bounds: { width } }, animate = true } = this.props;
+    const { ImageComponent = Photo, measureRef, animate = true } = this.props;
+    const { photos, columns, padding, contentRect: { bounds: { width } } } = this.props;
 
     if (!width) {
       return <div style={styles.gallery} ref={measureRef} />;
@@ -41,12 +42,12 @@ class Gallery extends PureComponent {
 
     const thumbs = computeSizes({ width, columns, padding, photos });
     const last = thumbs[thumbs.length - 1];
-    const height = last.posY + last.height;
+    const height = last.cell.posY + last.cell.height;
 
     return (
       <div className="react-photo-gallery--gallery" style={{ height }} ref={measureRef}>
-        {thumbs.map((photo, index) => (
-          <ImageComponent key={photo.key || index} index={index} photo={photo} onClick={this.handleClick} />
+        {thumbs.map(({ photo, cell }, index) => (
+          <ImageComponent key={photo.key || index} index={index} photo={photo} cell={cell} onClick={this.handleClick} />
         ))}
 
         <style>{`

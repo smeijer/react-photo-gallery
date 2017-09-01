@@ -47,17 +47,19 @@ export function computeSizes({ photos, columns, width: rowWidth, padding }) {
             ? Math.floor(rowWidth / columns * ratio(photo)) // single picture on last row
             : Math.floor(rowWidth - currentX); // fix last cell width to include rounding loss
 
-      const cell = {
-        ...photo,
-        height,
-        width,
-        posX: currentX,
-        posY: currentY,
+      const result = {
+        photo,
+        cell: {
+          height,
+          width,
+          posX: currentX,
+          posY: currentY,
+        },
       };
 
       currentX += width + padding;
 
-      return cell;
+      return result;
     });
 
     currentY += height + padding;
