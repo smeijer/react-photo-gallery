@@ -15,6 +15,8 @@ const randomBetween = (min, max) => Math.floor(Math.random() * (max - min + 1) +
 const unsplash = 'https://source.unsplash.com/random';
 
 const noImg = window.location.search.indexOf('no-img=1') > -1;
+const customElement = window.location.search.indexOf('custom=1') > -1;
+
 const photos = Array.from(Array(25)).map((x, idx) => {
   const width = randomBetween(400, 800);
   const height = randomBetween(400, 800);
@@ -25,6 +27,7 @@ const photos = Array.from(Array(25)).map((x, idx) => {
     width,
     height,
     title: `Photo ${idx}`,
+    attr: `by unsplash.com`,
     alt: `Photo ${idx}`,
     srcSet: noImg
       ? []
@@ -107,7 +110,7 @@ class App extends React.Component {
             photos={photos}
             columns={this.getColumnCount()}
             onClick={this.openLightbox}
-           // ImageComponent={CustomImage}
+            ImageComponent={customElement ? CustomImage : undefined}
           />
         </div>
 
