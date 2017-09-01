@@ -40,8 +40,8 @@ export function computeSizes({ photos, columns, width: rowWidth, padding }) {
         ? Math.floor(rowWidth / totalRatio)
         : Math.floor(rowWidth / columns / totalRatio);
 
-    const newRow = row.map((photo, idx) => {
-      const width = (idx !== row.length - 1) // eslint-disable-line
+    const newRow = row.map((photo, colIndex) => {
+      const width = (colIndex !== row.length - 1) // eslint-disable-line
           ? Math.floor(height * ratio(photo)) // default width calculation
           : row.length === 1 && columns > 1
             ? Math.floor(rowWidth / columns * ratio(photo)) // single picture on last row
@@ -54,6 +54,8 @@ export function computeSizes({ photos, columns, width: rowWidth, padding }) {
           width,
           posX: currentX,
           posY: currentY,
+          row: rowIndex,
+          column: colIndex,
         },
       };
 
