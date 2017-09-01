@@ -2,8 +2,8 @@ export function ratio({ width, height }) {
   return width / height;
 }
 
-export function computeSizes({ photos, columns, width, padding }) {
-  if (!width) {
+export function computeSizes({ photos, columns, width: rowWidth, padding }) {
+  if (!rowWidth) {
     return [];
   }
 
@@ -17,19 +17,37 @@ export function computeSizes({ photos, columns, width, padding }) {
 
   // calculate total ratio of each row, and adjust each cell height and width
   // accordingly.
-  const lastRowIndex = rows.length - 1;
+  let currentX = 0;
+  let currentY = 0;
+
   const rowsWithSizes = rows.map((row, rowIndex) => {
     const totalRatio = row.reduce((result, photo) => result + ratio(photo), 0);
-    const rowWidth = Math.floor(width - row.length * padding);
-    const height = (rowIndex !== lastRowIndex || row.length > 1) // eslint-disable-line
-        ? rowWidth / totalRatio
-        : rowWidth / columns / totalRatio;
+    const height = (rowIndex !== rows.length - 1 || row.length > 1) // eslint-disable-line
+        ? Math.floor(rowWidth / totalRatio)
+        : Math.floor(rowWidth / columns / totalRatio);
 
-    return row.map(photo => ({
-      ...photo,
-      height,
-      width: height * ratio(photo),
-    }));
+    const newRow = row.map((photo, idx) => {
+      const width = (idx !== row.length - 1 || row.length === 1) // eslint-disable-line
+        ? Math.floor(height * ratio(photo))
+        : rowWidth - currentX; // fix last cell width to include rounding loss
+
+      const cell = {
+        ...photo,
+        height,
+        width,
+        posX: currentX,
+        posY: currentY,
+      };
+
+      currentX += width + padding;
+
+      return cell;
+    });
+
+    currentY += height + padding;
+    currentX = 0;
+
+    return newRow;
   });
 
   return rowsWithSizes.reduce((acc, row) => [...acc, ...row], []);

@@ -34,20 +34,20 @@ class Gallery extends PureComponent {
   render() {
     const { ImageComponent = Photo, measureRef } = this.props;
     const { photos, columns, padding, contentRect: { bounds: { width } } } = this.props;
+
+    if (!width) {
+      return <div style={styles.gallery} ref={measureRef} />;
+    }
+
     const thumbs = computeSizes({ width, columns, padding, photos });
+    const last = thumbs[thumbs.length - 1];
+    const height = last.posY + last.height;
 
     return (
-      <div style={styles.gallery} ref={measureRef}>
-        {width &&
-          thumbs.map((photo, index) => {
-            const { width, height } = photo;
-
-            return (
-              <div key={photo.key || photo.src} style={{ ...styles.cell, width, height, margin: padding / 2 }}>
-                <ImageComponent index={index} photo={photo} onClick={this.handleClick} />
-              </div>
-            );
-          })}
+      <div style={{ ...styles.gallery, height }} ref={measureRef}>
+        {thumbs.map((photo, index) => (
+          <ImageComponent key={photo.key || photo.src} index={index} photo={photo} onClick={this.handleClick} />
+        ))}
       </div>
     );
   }

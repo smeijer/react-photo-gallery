@@ -1,7 +1,14 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-const imgStyle = { verticalAlign: 'bottom' };
+const imgStyle = {
+  position: 'absolute',
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'center',
+  backgroundColor: '#fff',
+  backgroundSize: 'cover',
+};
+
 const imgStyleWithOnClick = { ...imgStyle, cursor: 'pointer' };
 
 class Photo extends PureComponent {
@@ -19,10 +26,15 @@ class Photo extends PureComponent {
   }
 
   render() {
-    const { photo, onClick } = this.props;
+    const { photo: { src, width, height, posX, posY }, onClick } = this.props;
     const style = typeof onClick === 'function' ? imgStyleWithOnClick : imgStyle;
 
-    return <img style={style} {...photo} onClick={this.handleClick} />;
+    return (
+      <div
+        style={{ ...style, width, height, transform: `translate(${posX}px, ${posY}px)`, backgroundImage: `url(${src})` }}
+        onClick={this.handleClick}
+      />
+    );
   }
 }
 
@@ -30,6 +42,8 @@ export const photoPropType = PropTypes.shape({
   src: PropTypes.string.isRequired,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
+  posX: PropTypes.number,
+  posY: PropTypes.number,
   alt: PropTypes.string,
   title: PropTypes.string,
   srcSet: PropTypes.array,
