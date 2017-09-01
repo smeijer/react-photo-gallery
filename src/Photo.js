@@ -10,11 +10,20 @@ const imgStyle = {
 };
 
 const imgStyleWithOnClick = { ...imgStyle, cursor: 'pointer' };
+const updateForProps = ['src', 'width', 'height', 'posX', 'posY'];
 
 class Photo extends PureComponent {
   constructor() {
     super();
     this.handleClick = this.handleClick.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps) {
+    const photoChanged =
+      nextProps.photo !== this.props.photo &&
+      updateForProps.some(prop => nextProps.photo[prop] !== this.props.photo[prop]);
+
+    return photoChanged;
   }
 
   handleClick(event) {

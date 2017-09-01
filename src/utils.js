@@ -2,9 +2,23 @@ export function ratio({ width, height }) {
   return width / height;
 }
 
+let _cached;
+
 export function computeSizes({ photos, columns, width: rowWidth, padding }) {
   if (!rowWidth) {
     return [];
+  }
+
+  // use cache to prevent double computations, and return same reference
+  // to remove avoidable re-renders
+  if (
+    _cached &&
+    _cached.photos === photos &&
+    _cached.rowWidth === rowWidth &&
+    _cached.columns === columns &&
+    _cached.padding === padding
+  ) {
+    return _cached.cells;
   }
 
   // divide photos over rows, max cells based on `columns`
@@ -27,9 +41,11 @@ export function computeSizes({ photos, columns, width: rowWidth, padding }) {
         : Math.floor(rowWidth / columns / totalRatio);
 
     const newRow = row.map((photo, idx) => {
-      const width = (idx !== row.length - 1 || row.length === 1) // eslint-disable-line
-        ? Math.floor(height * ratio(photo))
-        : rowWidth - currentX; // fix last cell width to include rounding loss
+      const width = (idx !== row.length - 1) // eslint-disable-line
+          ? Math.floor(height * ratio(photo)) // default width calculation
+          : row.length === 1 && columns > 1
+            ? Math.floor(rowWidth / columns * ratio(photo)) // single picture on last row
+            : Math.floor(rowWidth - currentX); // fix last cell width to include rounding loss
 
       const cell = {
         ...photo,
@@ -50,5 +66,9 @@ export function computeSizes({ photos, columns, width: rowWidth, padding }) {
     return newRow;
   });
 
-  return rowsWithSizes.reduce((acc, row) => [...acc, ...row], []);
+  const cells = rowsWithSizes.reduce((acc, row) => [...acc, ...row], []);
+
+  // assign cache so we can compare on re-render
+  _cached = { rowWidth, columns, padding, photos, cells };
+  return cells;
 }
