@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-const styles = {
-  img: { display: 'block', border: 0 },
-};
+const imgStyle = { verticalAlign: 'bottom' };
+const imgStyleWithOnClick = { ...imgStyle, cursor: 'pointer' };
 
 class Photo extends Component {
   constructor() {
@@ -20,8 +19,10 @@ class Photo extends Component {
   }
 
   render() {
-    const { photo } = this.props;
-    return <img style={styles.img} {...photo} onClick={this.handleClick} />;
+    const { photo, onClick } = this.props;
+    const style = typeof onClick === 'function' ? imgStyleWithOnClick : imgStyle;
+
+    return <img style={style} {...photo} onClick={this.handleClick} />;
   }
 }
 
