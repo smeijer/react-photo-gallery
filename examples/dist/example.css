@@ -1,4 +1,4 @@
-/* 
+/*
 // Demo Stylesheet
 // -------------------
 */
@@ -6,8 +6,9 @@ body {
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   font-size: 14px;
   color: #333;
-  margin: 0 auto;
+  margin: 0;
   padding: 0;
+  background: #f3f5f6;
 }
 .clearfix:after {
   visibility: hidden;
@@ -44,9 +45,6 @@ a:link {
 a:hover {
   color: #ccc;
 }
-.container {
-  margin: 0 auto;
-}
 h1,
 h2,
 h3 {
@@ -68,11 +66,7 @@ iframe {
   width: 85px;
 }
 .App {
-  padding-top: 28px;
-}
-#Gallery {
-  margin: 0 auto;
-  margin-bottom: 20px;
+  padding: 28px 0 25px 0;
 }
 .loading-msg {
   font-size: 20px;
