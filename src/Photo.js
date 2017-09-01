@@ -30,6 +30,9 @@ class Photo extends PureComponent {
 
     return (
       <div
+        role="img"
+        aria-label={photo.title || photo.alt}
+        aria-level="3"
         className={['react-photo-gallery--photo', className].join(' ')}
         style={{
           width: cell.width,
