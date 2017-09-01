@@ -73,10 +73,6 @@ class App extends React.Component {
   }
 
   gotoNext() {
-    if (this.state.photos.length - 2 === this.state.currentImage) {
-      this.loadMorePhotos();
-    }
-
     this.setState({
       currentImage: this.state.currentImage + 1,
     });
