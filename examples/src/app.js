@@ -6,13 +6,18 @@ import Lightbox from 'react-images';
 
 import CustomImage from './CustomImage';
 
+if (process.env.NODE_ENV !== 'production') {
+  const { whyDidYouUpdate } = require('why-did-you-update');
+  whyDidYouUpdate(React, { include: /^Gallery|^Photo|^CustomImage/ });
+}
+
 const randomBetween = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 const unsplash = 'https://source.unsplash.com/random';
 
 const noImg = window.location.search.indexOf('no-img=1') > -1;
 const photos = Array.from(Array(25)).map((x, idx) => {
-  const width = randomBetween(400, 1200);
-  const height = randomBetween(400, 1200);
+  const width = randomBetween(400, 800);
+  const height = randomBetween(400, 800);
   const src = `${unsplash}/${width}x${height}`;
 
   return {
