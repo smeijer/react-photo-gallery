@@ -1,15 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-const imgStyle = {
-  position: 'absolute',
-  backgroundRepeat: 'no-repeat',
-  backgroundPosition: 'center',
-  backgroundColor: '#fff',
-  backgroundSize: 'cover',
-};
-
-const imgStyleWithOnClick = { ...imgStyle, cursor: 'pointer' };
 const updateForProps = ['src', 'width', 'height', 'posX', 'posY'];
 
 class Photo extends PureComponent {
@@ -36,11 +27,17 @@ class Photo extends PureComponent {
 
   render() {
     const { photo: { src, width, height, posX, posY }, onClick } = this.props;
-    const style = typeof onClick === 'function' ? imgStyleWithOnClick : imgStyle;
 
     return (
       <div
-        style={{ ...style, width, height, transform: `translate(${posX}px, ${posY}px)`, backgroundImage: `url(${src})` }}
+        className="react-photo-gallery--photo"
+        style={{
+          width,
+          height,
+          transform: `translate(${posX}px, ${posY}px)`,
+          backgroundImage: `url(${src})`,
+          cursor: typeof onClick === 'function' ? 'pointer' : 'default',
+        }}
         onClick={this.handleClick}
       />
     );
