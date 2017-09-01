@@ -101,12 +101,12 @@ class App extends React.Component {
   }
 
   render() {
-    const { measureRef, photos } = this.props;
+    const { measureRef, photos, contentRect: { bounds: { width } } } = this.props;
     const { currentImage, lightboxIsOpen } = this.state;
 
     return (
       <div className="App" ref={measureRef}>
-        <div style={{ margin: '0 auto', padding: '0 130px', minWidth: 400, maxWidth: '80%' }}>
+        <div style={{ margin: '0 auto', padding: `0 ${width < 600 ? 25 : 130}px`, minWidth: 400, maxWidth: '80%' }}>
           <Gallery
             photos={photos}
             columns={this.getColumnCount()}
